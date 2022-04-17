@@ -8,7 +8,7 @@ networks:
 x-minio-common: &minio-common
   image: minio/minio:latest
   # command: server --console-address ":9001" http://minio{1...4}/data{1...2}
-  command: server --address 0.0.0.0:9000 --console-address ":9001" http://minio{1...4}/data{1...2} 
+  command: server --address 0.0.0.0:9000 --console-address ":9001" http://minio{1...4}/data{1...2} http://minio{5...8}/data{1...2}
   restart: unless-stopped
   expose:
     - "9000"
@@ -17,8 +17,6 @@ x-minio-common: &minio-common
     MINIO_ROOT_USER: alamgir
     MINIO_ROOT_PASSWORD: kabir123
     MINIO_DISTRIBUTED_MODE_ENABLED: 1
-    MINIO_DISTRIBUTED_NODES: minio1,minio2,minio3,minio4
-    MINIO_SKIP_CLIENT: 1
   healthcheck:
     test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
     interval: 30s
@@ -59,7 +57,31 @@ services:
       - ./data4-1:/data1
       - ./data4-2:/data2
 
-
+  minio5:
+    <<: *minio-common
+    hostname: minio5
+    volumes:
+      - ./data5-1:/data1
+      - ./data5-2:/data2
+      
+  minio6:
+    <<: *minio-common
+    hostname: minio6
+    volumes:
+      - ./data6-1:/data1
+      - ./data6-2:/data2
+  minio7:
+    <<: *minio-common
+    hostname: minio7
+    volumes:
+      - ./data7-1:/data1
+      - ./data7-2:/data2
+  minio8:
+    <<: *minio-common
+    hostname: minio8
+    volumes:
+      - ./data8-1:/data1
+      - ./data8-2:/data2                  
   nginx:
     image: nginx:1.19.2-alpine
     hostname: nginx
@@ -75,6 +97,10 @@ services:
       - minio2
       - minio3
       - minio4
+      - minio5
+      - minio6            
+      - minio7
+      - minio8            
 
   varnish:
     build: ./varnish
@@ -106,4 +132,12 @@ volumes:
   data3-2:
   data4-1:
   data4-2:
+  data5-1:
+  data5-2:
+  data6-1:
+  data6-2:
+  data7-1:
+  data7-2:
+  data8-1:
+  data8-2:
 

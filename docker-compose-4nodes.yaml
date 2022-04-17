@@ -17,8 +17,6 @@ x-minio-common: &minio-common
     MINIO_ROOT_USER: alamgir
     MINIO_ROOT_PASSWORD: kabir123
     MINIO_DISTRIBUTED_MODE_ENABLED: 1
-    MINIO_DISTRIBUTED_NODES: minio1,minio2,minio3,minio4
-    MINIO_SKIP_CLIENT: 1
   healthcheck:
     test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
     interval: 30s
@@ -58,6 +56,9 @@ services:
     volumes:
       - ./data4-1:/data1
       - ./data4-2:/data2
+
+  
+
 
 
   nginx:
