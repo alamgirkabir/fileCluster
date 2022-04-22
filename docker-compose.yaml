@@ -68,8 +68,8 @@ services:
     networks:
       - localnetwork      
     ports:
-      - "9000:9000"
-      - "9001:9001"
+      - "9010:9000"
+      - "9011:9001"
     depends_on:
       - minio1
       - minio2
@@ -80,7 +80,7 @@ services:
     build: ./varnish
     container_name: varnish
     ports:
-      - "8000:80"
+      - "9012:80"
     depends_on:
       - nginx
     restart: unless-stopped
